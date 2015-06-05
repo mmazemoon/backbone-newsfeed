@@ -1,8 +1,8 @@
 NewsReader.Routers.Feeds = Backbone.Router.extend({
   routes: {
     "": "index",
-    "/feeds/:id": 'show'
-  },
+    "feeds/:id": 'feedShow'
+  },  // no leading slashes in router routes;
 
   initialize: function (options) {
     this.$rootEl = options.$rootEl;
@@ -12,12 +12,12 @@ NewsReader.Routers.Feeds = Backbone.Router.extend({
     NewsReader.feeds.fetch();
     var view = new NewsReader.Views.FeedsIndex({ collection: NewsReader.feeds});
     this.$rootEl.html(view.render().$el);
-  }
+  },
 
-  // show: function (id) {
-  //   var feed = feedsCollection.getOrFetch(id);
-  //   feed.fetch(); // API routes
-  //   // ... var view = new Pokedex.Views.FeedView({ model: feed })
-  //   // ...
-  // }
+  feedShow: function (id) {
+    var feed = NewsReader.feeds.get(id);
+    feed.fetch();
+    var view = new NewsReader.Views.Feed({ model: feed });
+    this.$rootEl.html(view.render().$el);
+  }
 });
